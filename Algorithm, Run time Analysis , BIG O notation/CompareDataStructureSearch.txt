@@ -1,0 +1,87 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.TreeSet;
+import java.util.Random;
+import java.util.Scanner;
+
+/**
+ * Compares Array (O(N)), HashSet (O(1)), and TreeSet (O(log N)) for searching.
+ * Follows best practices: choose right data structure, measure performance.
+ * Adapts cab service method: enhanceInvoice (displayComparison).
+ */
+public class CompareDataStructureSearch {
+    // Array Search: O(N)
+    public long arraySearch(ArrayList<Integer> list, int target) {
+        long startTime = System.nanoTime();
+        for (int num : list) {
+            if (num == target) {
+                return System.nanoTime() - startTime;
+            }
+        }
+        return System.nanoTime() - startTime;
+    }
+
+    // HashSet Search: O(1)
+    public long hashSetSearch(HashSet<Integer> set, int target) {
+        long startTime = System.nanoTime();
+        set.contains(target);
+        return System.nanoTime() - startTime;
+    }
+
+    // TreeSet Search: O(log N)
+    public long treeSetSearch(TreeSet<Integer> set, int target) {
+        long startTime = System.nanoTime();
+        set.contains(target);
+        return System.nanoTime() - startTime;
+    }
+
+    // Run searches and measure time: O(N) or O(log N) or O(1)
+    public String runSearches(int[] arr, int target) {
+        ArrayList<Integer> list = new ArrayList<>();
+        HashSet<Integer> hashSet = new HashSet<>();
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        for (int num : arr) {
+            list.add(num);
+            hashSet.add(num);
+            treeSet.add(num);
+        }
+
+        long arrayTime = arraySearch(list, target);
+        long hashSetTime = hashSetSearch(hashSet, target);
+        long treeSetTime = treeSetSearch(treeSet, target);
+
+        return enhanceInvoice(arr.length, arrayTime, hashSetTime, treeSetTime);
+    }
+
+    // Display comparison: O(1)
+    public String enhanceInvoice(int size, long arrayTime, long hashSetTime, long treeSetTime) {
+        StringBuilder sb = new StringBuilder("Data Structure Search Performance:\n");
+        sb.append("----------------\n");
+        sb.append(String.format("Dataset Size: %d\n", size));
+        sb.append(String.format("Array Search Time: %d ns\n", arrayTime));
+        sb.append(String.format("HashSet Search Time: %d ns\n", hashSetTime));
+        sb.append(String.format("TreeSet Search Time: %d ns\n", treeSetTime));
+        sb.append("----------------\n");
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        CompareDataStructureSearch searcher = new CompareDataStructureSearch();
+        Random random = new Random();
+
+        System.out.print("Enter dataset size: ");
+        int n = scanner.nextInt();
+        System.out.print("Enter target value: ");
+        int target = scanner.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = random.nextInt(10000); // Random integers
+        }
+
+        System.out.println(searcher.runSearches(arr, target));
+
+        scanner.close();
+    }
+}

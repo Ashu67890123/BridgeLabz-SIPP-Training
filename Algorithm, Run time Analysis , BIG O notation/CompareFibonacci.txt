@@ -1,0 +1,66 @@
+import java.util.Scanner;
+
+/**
+ * Compares Recursive (O(2ⁿ)) and Iterative (O(N)) Fibonacci computation.
+ * Follows best practices: avoid excessive recursion, measure performance.
+ * Adapts cab service method: enhanceInvoice (displayComparison).
+ */
+public class CompareFibonacci {
+    // Recursive Fibonacci: O(2ⁿ)
+    public int fibonacciRecursive(int n) {
+        if (n <= 1) return n;
+        return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+    }
+
+    // Iterative Fibonacci: O(N)
+    public int fibonacciIterative(int n) {
+        if (n <= 1) return n;
+        int a = 0, b = 1, sum;
+        for (int i = 2; i <= n; i++) {
+            sum = a + b;
+            a = b;
+            b = sum;
+        }
+        return b;
+    }
+
+    // Run Fibonacci calculations and measure time: O(2ⁿ) or O(N)
+    public String runFibonacci(int n) {
+        long recursiveTime, iterativeTime, recursiveResult, iterativeResult;
+
+        // Recursive
+        long startTime = System.nanoTime();
+        recursiveResult = fibonacciRecursive(n);
+        recursiveTime = System.nanoTime() - startTime;
+
+        // Iterative
+        startTime = System.nanoTime();
+        iterativeResult = fibonacciIterative(n);
+        iterativeTime = System.nanoTime() - startTime;
+
+        return enhanceInvoice(n, recursiveResult, recursiveTime, iterativeResult, iterativeTime);
+    }
+
+    // Display comparison: O(1)
+    public String enhanceInvoice(int n, long recursiveResult, long recursiveTime, long iterativeResult, long iterativeTime) {
+        StringBuilder sb = new StringBuilder("Fibonacci Performance Comparison:\n");
+        sb.append("----------------\n");
+        sb.append(String.format("N: %d\n", n));
+        sb.append(String.format("Recursive Result: %d, Time: %d ns\n", recursiveResult, recursiveTime));
+        sb.append(String.format("Iterative Result: %d, Time: %d ns\n", iterativeResult, iterativeTime));
+        sb.append("----------------\n");
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        CompareFibonacci fibonacci = new CompareFibonacci();
+
+        System.out.print("Enter N for Fibonacci: ");
+        int n = scanner.nextInt();
+
+        System.out.println(fibonacci.runFibonacci(n));
+
+        scanner.close();
+    }
+}

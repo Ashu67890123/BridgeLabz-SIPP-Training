@@ -1,0 +1,86 @@
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
+
+/**
+ * Compares Linear Search (O(N)) and Binary Search (O(log N)) on different dataset sizes.
+ * Follows best practices: use Binary Search for sorted data, early returns, measure performance.
+ * Adapts cab service method: enhanceInvoice (displayComparison).
+ */
+public class CompareSearchAlgorithms {
+    // Linear Search: O(N)
+    public int linearSearch(int[] arr, int target) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // Binary Search: O(log N)
+    public int binarySearch(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    // Run searches and measure time: O(N log N) for sorting + O(N) or O(log N)
+    public String runSearches(int[] arr, int target) {
+        long startTime, linearTime, binaryTime;
+
+        // Linear Search
+        startTime = System.nanoTime();
+        int linearResult = linearSearch(arr, target);
+        linearTime = System.nanoTime() - startTime;
+
+        // Binary Search (sort first)
+        int[] sortedArr = arr.clone();
+        Arrays.sort(sortedArr); // O(N log N)
+        startTime = System.nanoTime();
+        int binaryResult = binarySearch(sortedArr, target);
+        binaryTime = System.nanoTime() - startTime;
+
+        return enhanceInvoice(arr.length, linearResult, linearTime, binaryResult, binaryTime, target);
+    }
+
+    // Display comparison: O(1)
+    public String enhanceInvoice(int size, int linearResult, long linearTime, int binaryResult, long binaryTime, int target) {
+        StringBuilder sb = new StringBuilder("Search Performance Comparison:\n");
+        sb.append("----------------\n");
+        sb.append(String.format("Dataset Size: %d\n", size));
+        sb.append(String.format("Linear Search: %s, Time: %d ns\n", linearResult == -1 ? "Not Found" : "Found at index " + linearResult, linearTime));
+        sb.append(String.format("Binary Search: %s, Time: %d ns\n", binaryResult == -1 ? "Not Found" : "Found at index " + binaryResult, binaryTime));
+        sb.append("----------------\n");
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        CompareSearchAlgorithms searcher = new CompareSearchAlgorithms();
+        Random random = new Random();
+
+        System.out.print("Enter dataset size: ");
+        int n = scanner.nextInt();
+        System.out.print("Enter target value: ");
+        int target = scanner.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = random.nextInt(10000); // Random integers
+        }
+
+        System.out.println(searcher.runSearches(arr, target));
+
+        scanner.close();
+    }
+}

@@ -1,0 +1,72 @@
+import java.util.Scanner;
+
+/**
+ * Compares String, StringBuilder, and StringBuffer for string concatenation.
+ * Follows best practices: use StringBuilder for single-threaded, measure performance.
+ * Adapts cab service method: enhanceInvoice (displayComparison).
+ */
+public class CompareStringConcatenation {
+    // Concatenate using String: O(N²)
+    public long concatenateString(String str, int iterations) {
+        String result = "";
+        long startTime = System.nanoTime();
+        for (int i = 0; i < iterations; i++) {
+            result += str;
+        }
+        return System.nanoTime() - startTime;
+    }
+
+    // Concatenate using StringBuilder: O(N)
+    public long concatenateStringBuilder(String str, int iterations) {
+        StringBuilder sb = new StringBuilder();
+        long startTime = System.nanoTime();
+        for (int i = 0; i < iterations; i++) {
+            sb.append(str);
+        }
+        return System.nanoTime() - startTime;
+    }
+
+    // Concatenate using StringBuffer: O(N)
+    public long concatenateStringBuffer(String str, int iterations) {
+        StringBuffer sb = new StringBuffer();
+        long startTime = System.nanoTime();
+        for (int i = 0; i < iterations; i++) {
+            sb.append(str);
+        }
+        return System.nanoTime() - startTime;
+    }
+
+    // Run concatenations and measure time: O(N²) or O(N)
+    public String runConcatenations(String str, int iterations) {
+        long stringTime = concatenateString(str, iterations);
+        long builderTime = concatenateStringBuilder(str, iterations);
+        long bufferTime = concatenateStringBuffer(str, iterations);
+        return enhanceInvoice(iterations, stringTime, builderTime, bufferTime);
+    }
+
+    // Display comparison: O(1)
+    public String enhanceInvoice(int iterations, long stringTime, long builderTime, long bufferTime) {
+        StringBuilder sb = new StringBuilder("String Concatenation Performance:\n");
+        sb.append("----------------\n");
+        sb.append(String.format("Iterations: %d\n", iterations));
+        sb.append(String.format("String Time: %d ns\n", stringTime));
+        sb.append(String.format("StringBuilder Time: %d ns\n", builderTime));
+        sb.append(String.format("StringBuffer Time: %d ns\n", bufferTime));
+        sb.append("----------------\n");
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        CompareStringConcatenation concatenator = new CompareStringConcatenation();
+
+        System.out.print("Enter string to concatenate: ");
+        String str = scanner.nextLine();
+        System.out.print("Enter number of iterations: ");
+        int iterations = scanner.nextInt();
+
+        System.out.println(concatenator.runConcatenations(str, iterations));
+
+        scanner.close();
+    }
+}
