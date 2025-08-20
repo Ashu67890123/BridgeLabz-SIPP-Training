@@ -1,0 +1,14 @@
+CREATE Queue normalQueue
+CREATE Queue emergencyQueue
+
+METHOD addCustomer(customer, type)
+    IF type == "emergency"
+        ENQUEUE customer INTO emergencyQueue
+    ELSE
+        ENQUEUE customer INTO normalQueue
+
+METHOD serveCustomer()
+    IF emergencyQueue NOT empty
+        DEQUEUE from emergencyQueue
+    ELSE
+        DEQUEUE from normalQueue

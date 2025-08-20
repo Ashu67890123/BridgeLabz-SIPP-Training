@@ -1,0 +1,9 @@
+CREATE Stack undoStack
+
+METHOD addOperation(operation)
+    PUSH operation INTO undoStack
+
+METHOD undo()
+    IF undoStack NOT empty
+        POP lastOperation FROM undoStack
+        REVERT lastOperation
