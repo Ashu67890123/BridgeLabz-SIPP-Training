@@ -1,0 +1,9 @@
+CLASS Member
+    ATTRIBUTES: name, ID, membershipDate
+
+    METHOD: isMembershipValid(currentDate)
+        CALCULATE difference between currentDate and membershipDate
+        IF difference <= 1 year
+            RETURN true
+        ELSE
+            RETURN false

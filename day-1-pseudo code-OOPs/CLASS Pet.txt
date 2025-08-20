@@ -1,0 +1,21 @@
+CLASS Pet
+    ATTRIBUTES: name, age
+    METHOD: displayDetails()
+
+CLASS Dog EXTENDS Pet
+    ATTRIBUTES: breed
+    CONSTRUCTOR(name, age, breed)
+        CALL super(name, age)
+        this.breed = breed
+
+CLASS Cat EXTENDS Pet
+    ATTRIBUTES: color
+    CONSTRUCTOR(name, age, color)
+        CALL super(name, age)
+        this.color = color
+
+CLASS Bird EXTENDS Pet
+    ATTRIBUTES: species
+    CONSTRUCTOR(name, age, species)
+        CALL super(name, age)
+        this.species = species
