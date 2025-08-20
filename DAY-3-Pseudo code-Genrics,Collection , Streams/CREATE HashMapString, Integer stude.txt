@@ -1,0 +1,8 @@
+CREATE HashMap<String, Integer> studentScores
+
+METHOD addScore(name, score)
+    studentScores.put(name, score)
+
+METHOD getTopScorer()
+    topEntry = studentScores.stream().max(byValue)
+    RETURN topEntry

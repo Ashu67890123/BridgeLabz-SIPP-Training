@@ -1,0 +1,13 @@
+CLASS Employee
+    ATTRIBUTES: name, department, salary
+
+CREATE ArrayList<Employee> employees
+
+METHOD addEmployee(employee)
+    employees.add(employee)
+
+METHOD filterByDepartment(department)
+    filteredList = employees.stream()
+                            .filter(emp -> emp.department == department)
+                            .collect(toList)
+    RETURN filteredList
